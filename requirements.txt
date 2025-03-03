@@ -1,0 +1,7 @@
+akshare==1.15.93
+lightgbm==3.3.5
+numpy==1.26.3
+optuna==4.1.0
+pandas==2.2.3
+scikit_learn==1.6.1
+tqdm==4.66.4
