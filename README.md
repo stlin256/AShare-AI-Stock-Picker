@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/d21963e6-b71d-4abf-b46a-5113a1a8dff3)# A股智能选股系统 v1.0
+# A股智能选股系统 v1.0
 
 ## 项目概述
 这是一个基于机器学习的 A 股选股系统，旨在通过预测股票未来涨跌趋势帮助用户进行投资决策。系统利用 LightGBM 模型结合多种技术指标进行预测，并通过 Optuna 进行超参数优化，确保模型性能最佳。
