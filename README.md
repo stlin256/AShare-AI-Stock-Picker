@@ -94,7 +94,7 @@ stock_prediction_project/
 1. 克隆或下载项目到本地：
 
    ```bash
-   git clone https://github.com/stlin256/AShare-AI-Picker.git
+   git clone https://github.com/stlin256/AShare-AI-Stock-Picker.git
    ```
 
 2. 安装依赖（见“技术栈与依赖”部分）。
