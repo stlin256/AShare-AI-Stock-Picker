@@ -9,7 +9,9 @@ from sklearn.model_selection import TimeSeriesSplit
 import logging
 from config.config import MODEL_DIR, FEATURE_COLS
 from data.data_fetcher import get_stock_data
+import warnings
 
+warnings.filterwarnings("ignore")
 
 def optimize_hyperparameters(X, y):
     """
@@ -47,6 +49,7 @@ def optimize_hyperparameters(X, y):
             model.fit(X_train, y_train,
                       eval_set=[(X_val, y_val)],
                       eval_metric='auc',
+                      verbose= False,
                       callbacks=[])
 
             y_pred = model.predict_proba(X_val)[:, 1]
