@@ -1,3 +1,135 @@
+# A-shares Intelligent Stock Picker v1.0
+<a href="#cn">中文介绍</a>
+## Project Overview
+This is a machine learning-based A-shares stock selection system designed to help users make investment decisions by predicting future stock price trends. The system utilizes the LightGBM model combined with multiple technical indicators for prediction, and employs Optuna for hyperparameter optimization to ensure optimal model performance.
+
+### Core Features
+- **Data Acquisition**: Retrieve A-shares historical data from `akshare`  
+- **Feature Engineering**: Calculate multiple technical indicators such as RSI, MACD, OBV  
+- **Model Training**: Perform binary classification prediction (stock price movement over 5 days) using LightGBM  
+- **Hyperparameter Optimization**: Automatic parameter optimization through Optuna  
+- **Model Caching**: Support model saving/loading to accelerate subsequent runs  
+- **Prediction & Recommendations**: Generate stock recommendation ratings (A/B/C) and export to Excel  
+
+## Technology Stack & Dependencies
+- **Python Version**: Recommended 3.12  
+- **Key Libraries**:  
+  - `akshare`: Retrieve stock historical data  
+  - `talib`: Calculate technical indicators  
+  - `lightgbm`: Machine learning model training  
+  - `optuna`: Hyperparameter optimization  
+  - `pandas`/`numpy`: Data processing and analysis  
+  - `sklearn`: Cross-validation & model evaluation  
+  - `tqdm`: Display training/prediction progress bars  
+  - `openpyxl`: Export results to Excel  
+
+### Installation
+Run the following commands in the project root directory:  
+```bash
+pip install requirements.txt -r
+pip install TA_Lib-0.4.28-cp312-cp312-win_amd64.whl
+```
+
+## Directory Structure
+```text
+stock_prediction_project/
+├── config/
+│   └── config.py          # Global configuration parameters (e.g., feature columns, model paths)
+├── data/
+│   └── stock_models/      # Model cache directory
+├── features/
+│   └── feature_engineering.py  # Feature engineering & technical indicator calculations
+├── models/
+│   ├── __init__.py
+│   └── model_trainer.py   # Model training & optimization logic
+├── main.py                # Main program entry point
+└── README.md              # Project documentation
+```
+
+## Function Modules
+
+### Data Acquisition
+- **Source**: A-shares historical data via `akshare`  
+- **Preprocessing**: Column renaming, filtering invalid data (missing values or outliers)  
+- **Custom Range**: Support user-defined time range specification  
+
+### Feature Engineering
+- **Technical Indicators**: Calculate common indicators including:  
+  - RSI (Relative Strength Index)  
+  - MACD (Moving Average Convergence/Divergence)  
+  - OBV (On-Balance Volume)  
+  - CCI (Commodity Channel Index)  
+  - ATR (Average True Range)  
+  - ADX (Average Directional Index)  
+- **Prediction Target**: Generate 5-day future returns (pct_chg_5d) as the model target variable  
+
+### Model Training
+- **Model**: LightGBM for binary classification (predicting positive/negative 5-day returns)  
+- **Optimization**: Bayesian hyperparameter optimization via Optuna  
+- **Caching**: Trained models saved in `data/stock_models/` for reuse  
+
+### Prediction & Recommendations
+- **Prediction Flow**: Predict price movement probability for each stock  
+- **Recommendation Ratings**:  
+  - **Grade A**: Probability ≥ 0.75 (High-confidence gain)  
+  - **Grade B**: 0.6 ≤ Probability < 0.75 (Medium-confidence gain)  
+  - **Grade C**: Probability < 0.6 (Low-confidence gain)  
+- **Output**: Excel file containing stock code, name, limit-up status, prediction probability, and recommendation grade  
+
+## Usage Instructions
+
+### Runtime Environment
+- Ensure Python 3.12 and all dependencies are installed  
+- Virtual environment recommended to avoid dependency conflicts  
+
+### Execution Steps
+1. Clone/download the project:  
+   ```bash
+   git clone https://github.com/stlin256/AShare-AI-Stock-Picker.git  
+   ```
+
+2. Install dependencies (see "Technology Stack" section)
+
+3. Run the main program:  
+   ```bash
+   python main.py
+   ```
+
+4. Choose whether to load cached models:  
+   - First-time run requires model training (~5h on 8C16T R9-7940hs)  
+   - Subsequent runs can load existing models  
+
+5. System will automatically process data and generate recommendations  
+
+### Output Files
+- Saved as `stock_recommend_YYYYMMDD.xlsx` with date stamp  
+- Example output:  
+
+  | 代码   | 名称     | 是否涨停 | 预测概率 | 推荐评级 | 收盘价  | 更新日期   |
+  | ------ | -------- | -------- | -------- | -------- | ------- | ---------- |
+  | 600519 | 贵州茅台 | 否       | 0.464573218     | C        | 1487.02 | 2025-03-03 |
+
+## Model & Prediction
+- **Model Selection**: LightGBM - efficient gradient boosting tree model for large datasets  
+- **Prediction Target**: Binary classification of 5-day returns (1: gain, 0: loss)  
+- **Rating Criteria**:  
+  - Grade A: High-confidence gain  
+  - Grade B: Medium-confidence gain  
+  - Grade C: Low-confidence gain  
+
+## Notes
+- **Data Updates**: Stock data changes rapidly - regular program execution recommended  
+- **Model Updates**: Force retraining via `force_retrain=True` in main.py  
+- **Stock Filtering**: Default filters for ST stocks, delisted stocks, and STAR/GEM stocks (adjustable in main.py)  
+
+## Contribution & Feedback
+- **Code Contributions**: Submit optimizations or new features via Pull Requests  
+- **Bug Reports**: Use GitHub Issues for feedback and suggestions  
+
+---
+
+<div id="cn"></div>
+
 # A股智能选股系统 v1.0
 
 ## 项目概述
